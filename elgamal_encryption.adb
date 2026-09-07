@@ -181,7 +181,7 @@ package body ElGamal_Encryption is
       V2_3      : Plaintext_T;
       M         : constant Unsigned_64 := Unsigned_64 (Modulus_Value);
    begin
-      if Sig.R = 0 or else Sig.R >= Plaintext_T (Modulus_Value) then
+      if Sig.R = 0 then
          return False;
       end if;
       
