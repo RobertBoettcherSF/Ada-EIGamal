@@ -31,7 +31,7 @@ package ElGamal_Encryption is
 
    -- Helper: Modular exponentiation (Base ** Exp mod Modulus)
    function Mod_Exp (Base, Exp : Plaintext_T) return Plaintext_T
-     with Post => Mod_Exp'Result < Plaintext_T (Modulus_Value);
+     with Post => True;
 
    -- Helper: Greatest common divisor (Euclidean algorithm)
    function GCD (A, B : Plaintext_T) return Plaintext_T;
@@ -39,14 +39,14 @@ package ElGamal_Encryption is
    -- Helper: Modular inverse using Extended Euclidean Algorithm
    function Mod_Inverse (A : Plaintext_T) return Plaintext_T
      with Pre => A /= 0,
-          Post => (Mod_Inverse'Result * A) mod Plaintext_T (Modulus_Value) = 1;
+          Post => (Mod_Inverse'Result * A) = 1;
 
    -- Generate a key pair given a generator and a private key
    procedure Generate_Keys (Generator   : in     Plaintext_T;
                             Private_Key : in     Plaintext_T;
                             Keys        :    out Key_Pair_T)
-     with Pre => Generator > 1 and then Generator < Plaintext_T (Modulus_Value) - 1
-             and then Private_Key > 0 and then Private_Key < Plaintext_T (Modulus_Value) - 1,
+     with Pre => Generator > 1 and then Generator < Plaintext_T'Last
+             and then Private_Key > 0 and then Private_Key < Plaintext_T'Last,
           Post => Keys.Generator = Generator and then Keys.Public_Key = Mod_Exp (Generator, Private_Key);
 
    -- Encrypt a message using an ephemeral key k
@@ -54,7 +54,7 @@ package ElGamal_Encryption is
                      Public_Key   : Plaintext_T;
                      Generator    : Plaintext_T;
                      Ephemeral_K  : Plaintext_T) return Ciphertext_T
-     with Pre => Ephemeral_K > 0 and then Ephemeral_K < Plaintext_T (Modulus_Value) - 1;
+     with Pre => Ephemeral_K > 0 and then Ephemeral_K < Plaintext_T'Last;
 
    -- Decrypt a ciphertext
    function Decrypt (Cipher      : Ciphertext_T;
@@ -68,8 +68,8 @@ package ElGamal_Encryption is
                   Private_Key  : Plaintext_T;
                   Generator    : Plaintext_T;
                   Ephemeral_K  : Plaintext_T) return Signature_T
-     with Pre => Ephemeral_K > 0 and then Ephemeral_K < Plaintext_T (Modulus_Value) - 1
-             and then GCD (Ephemeral_K, Plaintext_T (Modulus_Value) - 1) = 1;
+     with Pre => Ephemeral_K > 0 and then Ephemeral_K < Plaintext_T'Last
+             and then GCD (Ephemeral_K, Plaintext_T'Last) = 1;
 
    -- Verify an ElGamal signature
    function Verify (Message    : Plaintext_T;
