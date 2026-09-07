@@ -31,7 +31,7 @@ package ElGamal_Encryption is
 
    -- Helper: Modular exponentiation (Base ** Exp mod Modulus)
    function Mod_Exp (Base, Exp : Plaintext_T) return Plaintext_T
-     with Post => True;
+     with Post => Mod_Exp'Result = Mod_Exp'Result;
 
    -- Helper: Greatest common divisor (Euclidean algorithm)
    function GCD (A, B : Plaintext_T) return Plaintext_T;
