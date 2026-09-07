@@ -40,8 +40,8 @@ begin
 
    -- TEST 3 — Modular Inverse
    Put_Line ("TEST 3 — Modular Inverse");
-   Check ("3.1 Inverse of 3 modulo p product check", (3 * Mod_Inverse (3)) mod Plaintext_T (Modulus_Value) = 1);
-   Check ("3.2 Inverse of 12345 modulo p product check", (12345 * Mod_Inverse (12345)) mod Plaintext_T (Modulus_Value) = 1);
+   Check ("3.1 Inverse of 3 modulo p product check", (3 * Mod_Inverse (3)) = 1);
+   Check ("3.2 Inverse of 12345 modulo p product check", (12345 * Mod_Inverse (12345)) = 1);
    Check ("3.3 Inverse of 1 modulo p is 1", Mod_Inverse (1) = 1);
 
    -- TEST 4 — Key Generation
